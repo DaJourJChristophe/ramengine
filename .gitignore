@@ -1,0 +1,17 @@
+*.a
+*.o
+*.so
+*.so.*
+
+.vscode/
+
+bin/*
+!bin/.keep
+
+include/C-Thread-Pool
+include/hyperfunnel
+include/jemalloc
+include/turnpike
+
+libexec/*
+!libexec/.keep

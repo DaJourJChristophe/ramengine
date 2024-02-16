@@ -1,0 +1,15 @@
+[submodule "deps/hyper-funnel"]
+	path = deps/hyper-funnel
+	url = git@github.com:DaJourJChristophe/hyper-funnel.git
+[submodule "deps/turnpike"]
+	path = deps/turnpike
+	url = git@github.com:DaJourJChristophe/turnpike.git
+[submodule "deps/jemalloc"]
+	path = deps/jemalloc
+	url = git@github.com:jemalloc/jemalloc.git
+[submodule "C-Thread-Pool"]
+	path = C-Thread-Pool
+	url = git@github.com:Pithikos/C-Thread-Pool.git
+[submodule "deps/C-Thread-Pool"]
+	path = deps/C-Thread-Pool
+	url = git@github.com:Pithikos/C-Thread-Pool.git
