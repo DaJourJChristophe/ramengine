@@ -1,3 +1,5 @@
+#include "broker.h"
+
 #include <C-Thread-Pool/thpool.h>
 
 #include <hyperfunnel/observable.h>
@@ -60,43 +62,26 @@ int main(void)
   observer_t *observer1 = NULL;
   observer_t *observer2 = NULL;
 
-  observable_t *observable = NULL;
-  observable = observable_new(QUEUE_CAPACITY, MAX_OBSERVERS, MAX_THREADS);
+  broker_t *broker = NULL;
+  broker = broker_new(QUEUE_CAPACITY, MAX_OBSERVERS, MAX_THREADS);
 
-  observer1 = observer_new(observable, &notifier1);
-  observer2 = observer_new(observable, &notifier2);
+  observer1 = observer_new(broker->observable, &notifier1);
+  observer2 = observer_new(broker->observable, &notifier2);
 
-  observable_subscribe(observable, observer1);
-  observable_subscribe(observable, observer2);
+  broker_subscribe(broker, observer1);
+  broker_subscribe(broker, observer2);
 
-  threadpool thpool = NULL;
-  thpool = thpool_init(MAX_THREADS);
+  broker_start(broker);
 
-  observer_t *observer = NULL;
-  uint64_t i;
-
-  for (i = 0; i < observable->count; i++)
-  {
-    observer = observable->observers[i];
-
-    if (thpool_add_work(thpool, (void (*)(void *))observer->notify, observer) < 0)
-    {
-      fprintf(stderr, "%s(): %s\n", __func__, "could not create thread");
-      exit(EXIT_FAILURE);
-    }
-  }
+  int i;
 
   for (i = 1; i < 6; i++)
   {
-    observable_publish(observable, i);
+    broker_publish(broker, i);
   }
 
-  observable_shutdown(observable);
-
-  thpool_wait(thpool);
-  thpool_destroy(thpool);
-
-  observable_destroy(observable);
+  broker_shutdown(broker);
+  broker_destroy(broker);
 
   return EXIT_FAILURE;
 }

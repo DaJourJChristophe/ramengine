@@ -2,8 +2,9 @@
 
 set -e
 
-/usr/bin/gcc -c -Iinclude -o main.o main.c
+/usr/bin/gcc -c -Iinclude -o src/broker.o src/broker.c
+/usr/bin/gcc -c -Iinclude -o src/main.o src/main.c
 
-/usr/bin/gcc -Llibexec -o bin/main main.o -lpthread -lthpool -lturnpike -lhyperfunnel -ljemalloc
+/usr/bin/gcc -Llibexec -o bin/main src/broker.o src/main.o -lpthread -lthpool -lturnpike -lhyperfunnel -ljemalloc
 
-rm -rf *.o
+rm -rf src/*.o
